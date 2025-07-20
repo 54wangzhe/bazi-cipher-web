@@ -3,22 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>八字神人加密器 v8.0</title>
-    <!-- 添加网站图标 -->
+    <title>八字神人加密器 v9.1</title>
     <link rel="icon" href="bazi_icon.png" type="image/png">
-    <!-- 引入CSS文件 -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="version">v8.0</div>
+            <div class="version">v9.1</div>
             <h1>八字神人加密器</h1>
         </header>
 
         <div class="main-content">
             <div class="operation-panel">
-                <h2 class="panel-title">加密/解密操作</h2>
+                <div class="algorithm-selector">
+                    <label for="algorithm-select">加密算法:</label>
+                    <select id="algorithm-select">
+                        <option value="dot">点字加密</option>
+                        <option value="reverse">反转加密</option>
+                        <option value="caesar">凯撒密码</option>
+                    </select>
+                    <div id="caesar-shift" style="display: none;">
+                        <label for="shift-value">位移量:</label>
+                        <input type="number" id="shift-value" min="1" max="25" value="3">
+                    </div>
+                </div>
                 
                 <div class="input-group">
                     <label for="input-text">输入内容:</label>
@@ -27,25 +36,30 @@
                 
                 <div class="button-group">
                     <button class="primary-btn" id="encrypt-btn">
-                        <span>🔒</span> 加密
+                        <span class="icon">🔒</span> <span class="btn-text">加密</span>
                     </button>
                     <button class="primary-btn" id="decrypt-btn">
-                        <span>🔓</span> 解密
+                        <span class="icon">🔓</span> <span class="btn-text">解密</span>
                     </button>
                 </div>
                 
                 <div class="button-group">
                     <button class="secondary-btn" id="clear-btn">
-                        <span>🧹</span> 清空
+                        <span class="icon">🧹</span> <span class="btn-text">清空</span>
                     </button>
                     <button class="primary-btn" id="copy-btn">
-                        <span>📋</span> 复制结果
+                        <span class="icon">📋</span> <span class="btn-text">复制结果</span>
                     </button>
                 </div>
                 
                 <div class="result-group">
                     <label for="result-text">结果:</label>
-                    <textarea id="result-text" class="result-text" readonly></textarea>
+                    <div class="result-container">
+                        <textarea id="result-text" class="result-text" readonly></textarea>
+                        <div id="result-loading" class="loading-overlay" style="display: none;">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -53,8 +67,12 @@
                 <div class="history-header">
                     <h2 class="panel-title">历史记录</h2>
                     <div class="history-actions">
-                        <button class="action-btn view-btn" id="view-detail-btn">查看详情</button>
-                        <button class="action-btn delete-btn" id="delete-selected-btn">删除选中</button>
+                        <button class="action-btn view-btn" id="view-detail-btn">
+                            <span class="icon">🔍</span> 查看详情
+                        </button>
+                        <button class="action-btn delete-btn" id="delete-selected-btn">
+                            <span class="icon">🗑️</span> 删除选中
+                        </button>
                     </div>
                 </div>
                 
@@ -64,6 +82,7 @@
                             <tr>
                                 <th style="width: 100px;">时间</th>
                                 <th style="width: 60px;">操作</th>
+                                <th style="width: 80px;">算法</th>
                                 <th>原始内容</th>
                                 <th>结果</th>
                             </tr>
@@ -75,8 +94,15 @@
                 </div>
                 
                 <div class="history-actions" style="margin-top: 6px;">
-                    <button class="action-btn export-btn" id="export-btn">导出历史</button>
-                    <button class="action-btn clear-btn" id="clear-history-btn">清空历史</button>
+                    <button class="action-btn export-btn" id="export-btn">
+                        <span class="icon">📤</span> 导出历史
+                    </button>
+                    <button class="action-btn clear-btn" id="clear-history-btn">
+                        <span class="icon">🔥</span> 清空历史
+                    </button>
+                    <button class="action-btn sort-btn" id="sort-btn">
+                        <span class="icon">🔄</span> 排序
+                    </button>
                 </div>
             </div>
         </div>
@@ -86,7 +112,7 @@
         </button>
         
         <div class="status-bar">
-            <div class="version-info">版本: v8.0 <span class="color-changing">由crazycba制作</span></div>
+            <div class="version-info">版本: v9.1 <span class="color-changing">由crazycba制作</span></div>
             <div class="status-info" id="status">就绪 - 按Enter键快速加密</div>
         </div>
     </div>
@@ -110,6 +136,11 @@
                 </div>
                 
                 <div class="detail-item">
+                    <div class="detail-label">算法:</div>
+                    <div id="detail-algorithm" class="detail-content"></div>
+                </div>
+                
+                <div class="detail-item">
                     <div class="detail-label">原始内容:</div>
                     <div id="detail-original" class="detail-content"></div>
                 </div>
@@ -125,7 +156,6 @@
     <!-- 通知提示 -->
     <div class="notification" id="notification"></div>
 
-    <!-- 引入JavaScript文件 -->
     <script src="script.js"></script>
 </body>
 </html>
