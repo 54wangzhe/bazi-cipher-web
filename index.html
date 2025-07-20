@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>八字神人加密器 v7.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>八字神人加密器 v7.1.4</title>
     <style>
         :root {
             --primary-color: #4a6fa5;
@@ -17,6 +17,7 @@
             --success-color: #4caf50;
             --warning-color: #ff9800;
             --error-color: #f44336;
+            --button-height: 45px;
         }
         
         * {
@@ -30,56 +31,69 @@
             background-color: var(--light-bg);
             color: var(--text-color);
             line-height: 1.6;
-            padding: 20px;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
-            max-width: 1000px;
+            width: 100%;
+            max-width: 100%;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            box-shadow: none;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
         
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
             color: var(--light-text);
-            padding: 20px;
+            padding: 12px 10px;
             text-align: center;
             position: relative;
+            flex-shrink: 0;
         }
         
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 1.3rem;
+            margin-bottom: 3px;
         }
         
         .version {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 5px;
+            left: 5px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.7rem;
         }
         
         .app-description {
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1rem;
-            opacity: 0.9;
+            display: none; /* 在移动端隐藏描述 */
+        }
+        
+        .main-content {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         .operation-panel {
-            padding: 20px;
+            padding: 8px;
             border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
         
         .panel-title {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
+            font-size: 1rem;
+            margin-bottom: 8px;
             color: var(--primary-color);
             display: flex;
             align-items: center;
@@ -87,30 +101,31 @@
         
         .panel-title::before {
             content: "•";
-            margin-right: 10px;
+            margin-right: 6px;
             color: var(--accent-color);
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
         
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
         
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
             font-weight: bold;
+            font-size: 0.85rem;
         }
         
         textarea {
             width: 100%;
-            padding: 12px;
+            padding: 6px;
             border: 1px solid var(--border-color);
-            border-radius: 5px;
+            border-radius: 4px;
             font-family: inherit;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 120px;
+            font-size: 0.85rem;
+            resize: none;
+            min-height: 55px;
             transition: border-color 0.3s;
         }
         
@@ -123,23 +138,28 @@
         .button-group {
             display: flex;
             justify-content: space-between;
-            margin: 20px 0;
-            gap: 10px;
+            margin: 8px 0;
+            gap: 6px;
         }
         
         button {
-            padding: 12px 20px;
+            padding: 0 8px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 4px;
+            height: var(--button-height);
+        }
+        
+        button:active {
+            transform: scale(0.98);
         }
         
         .primary-btn {
@@ -150,8 +170,6 @@
         
         .primary-btn:hover {
             background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         .secondary-btn {
@@ -161,38 +179,45 @@
         }
         
         .secondary-btn:hover {
-            background: #dde2e6;
+            background: #dce1e6;
         }
         
         .result-group {
-            margin-top: 20px;
+            margin-top: 8px;
         }
         
         .result-text {
             background: #f8f9fa;
-            min-height: 120px;
+            min-height: 55px;
         }
         
         .history-panel {
-            padding: 20px;
+            padding: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
         }
         
         .history-header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
+            gap: 6px;
         }
         
         .history-actions {
             display: flex;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 4px;
         }
         
         .history-container {
             border: 1px solid var(--border-color);
-            border-radius: 5px;
-            overflow: hidden;
+            border-radius: 4px;
+            overflow: auto;
+            width: 100%;
+            max-height: 80px;
         }
         
         .history-table {
@@ -203,15 +228,18 @@
         .history-table th {
             background: var(--primary-color);
             color: white;
-            padding: 12px 15px;
+            padding: 6px 4px;
             text-align: left;
             position: sticky;
             top: 0;
+            font-size: 0.7rem;
         }
         
         .history-table td {
-            padding: 12px 15px;
+            padding: 4px;
             border-bottom: 1px solid var(--border-color);
+            font-size: 0.7rem;
+            word-break: break-all;
         }
         
         .history-table tr:nth-child(even) {
@@ -222,19 +250,27 @@
             background: #e9f7fe;
         }
         
+        .history-table tr.selected {
+            background: #d1e7fd;
+        }
+        
         .status-bar {
             background: var(--dark-bg);
             color: var(--light-text);
-            padding: 10px 20px;
+            padding: 6px 8px;
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
-            font-size: 0.9rem;
+            font-size: 0.7rem;
+            gap: 4px;
+            flex-shrink: 0;
         }
         
         .action-btn {
-            padding: 8px 15px;
-            font-size: 0.9rem;
-            border-radius: 4px;
+            padding: 0 6px;
+            font-size: 0.7rem;
+            border-radius: 3px;
+            height: 25px;
         }
         
         .view-btn {
@@ -268,12 +304,13 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 10px;
         }
         
         .modal-content {
             background: white;
-            border-radius: 10px;
-            width: 90%;
+            border-radius: 8px;
+            width: 100%;
             max-width: 600px;
             max-height: 90vh;
             overflow: auto;
@@ -283,14 +320,14 @@
         .modal-header {
             background: var(--primary-color);
             color: white;
-            padding: 15px 20px;
+            padding: 10px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .modal-body {
-            padding: 20px;
+            padding: 15px;
         }
         
         .close-btn {
@@ -299,31 +336,34 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 0;
         }
         
         .detail-item {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .detail-label {
             font-weight: bold;
             margin-bottom: 5px;
             color: var(--primary-color);
+            font-size: 0.9rem;
         }
         
         .detail-content {
-            padding: 10px;
+            padding: 8px;
             background: #f8f9fa;
             border-radius: 5px;
-            max-height: 200px;
+            max-height: 150px;
             overflow: auto;
+            font-size: 0.9rem;
         }
         
         .notification {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            padding: 15px 25px;
+            padding: 10px 15px;
             border-radius: 5px;
             color: white;
             font-weight: bold;
@@ -332,6 +372,9 @@
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.3s;
+            max-width: 80%;
+            text-align: center;
+            font-size: 0.9rem;
         }
         
         .notification.show {
@@ -351,98 +394,115 @@
             background: var(--warning-color);
         }
         
-        @media (max-width: 768px) {
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .history-actions {
-                flex-wrap: wrap;
-            }
-            
-            .history-table th, 
-            .history-table td {
-                padding: 8px 10px;
-                font-size: 0.9rem;
-            }
-            
-            .status-bar {
-                flex-direction: column;
-                gap: 5px;
-            }
+        /* 显示/隐藏历史面板的按钮 */
+        #toggle-history-btn {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 900;
+        }
+        
+        /* 新增：颜色变化动画 */
+        @keyframes colorChange {
+            0% { color: #ff6b6b; }
+            25% { color: #4caf50; }
+            50% { color: #2196f3; }
+            75% { color: #ff9800; }
+            100% { color: #9c27b0; }
+        }
+        
+        .color-changing {
+            animation: colorChange 5s infinite;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="version">v7.0</div>
+            <div class="version">v7.1.4</div>
             <h1>八字神人加密器</h1>
-            <p class="app-description">使用"点、击、输、入、文、本、，、。"八个字符进行加密和解密操作，支持所有文本内容</p>
         </header>
         
-        <div class="operation-panel">
-            <h2 class="panel-title">加密/解密操作</h2>
-            
-            <div class="input-group">
-                <label for="input-text">输入内容:</label>
-                <textarea id="input-text" placeholder="在此输入要加密或解密的文本..."></textarea>
+        <div class="main-content">
+            <div class="operation-panel">
+                <h2 class="panel-title">加密/解密操作</h2>
+                
+                <div class="input-group">
+                    <label for="input-text">输入内容:</label>
+                    <textarea id="input-text" placeholder="在此输入要加密或解密的文本..."></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button class="primary-btn" id="encrypt-btn">
+                        <span>🔒</span> 加密
+                    </button>
+                    <button class="primary-btn" id="decrypt-btn">
+                        <span>🔓</span> 解密
+                    </button>
+                </div>
+                
+                <div class="button-group">
+                    <button class="secondary-btn" id="clear-btn">
+                        <span>🧹</span> 清空
+                    </button>
+                    <button class="primary-btn" id="copy-btn">
+                        <span>📋</span> 复制结果
+                    </button>
+                </div>
+                
+                <div class="result-group">
+                    <label for="result-text">结果:</label>
+                    <textarea id="result-text" class="result-text" readonly></textarea>
+                </div>
             </div>
             
-            <div class="button-group">
-                <button class="primary-btn" id="encrypt-btn">
-                    <span>🔒</span> 加密 (Enter)
-                </button>
-                <button class="primary-btn" id="decrypt-btn">
-                    <span>🔓</span> 解密
-                </button>
-                <button class="secondary-btn" id="clear-btn">
-                    <span>🧹</span> 清空
-                </button>
-            </div>
-            
-            <div class="result-group">
-                <label for="result-text">结果:</label>
-                <textarea id="result-text" class="result-text" readonly></textarea>
-            </div>
-            
-            <div class="button-group">
-                <button class="primary-btn" id="copy-btn">
-                    <span>📋</span> 复制结果
-                </button>
-            </div>
-        </div>
-        
-        <div class="history-panel">
-            <div class="history-header">
-                <h2 class="panel-title">历史记录</h2>
-                <div class="history-actions">
-                    <button class="action-btn view-btn" id="view-detail-btn">查看详情</button>
-                    <button class="action-btn delete-btn" id="delete-selected-btn">删除选中</button>
+            <div class="history-panel" id="history-panel">
+                <div class="history-header">
+                    <h2 class="panel-title">历史记录</h2>
+                    <div class="history-actions">
+                        <button class="action-btn view-btn" id="view-detail-btn">查看详情</button>
+                        <button class="action-btn delete-btn" id="delete-selected-btn">删除选中</button>
+                    </div>
+                </div>
+                
+                <div class="history-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">时间</th>
+                                <th style="width: 60px;">操作</th>
+                                <th>原始内容</th>
+                                <th>结果</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <!-- 历史记录会动态加载到这里 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="history-actions" style="margin-top: 6px;">
                     <button class="action-btn export-btn" id="export-btn">导出历史</button>
                     <button class="action-btn clear-btn" id="clear-history-btn">清空历史</button>
                 </div>
             </div>
-            
-            <div class="history-container">
-                <table class="history-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 150px;">时间</th>
-                            <th style="width: 80px;">操作</th>
-                            <th>原始内容</th>
-                            <th>结果</th>
-                        </tr>
-                    </thead>
-                    <tbody id="history-body">
-                        <!-- 历史记录会动态加载到这里 -->
-                    </tbody>
-                </table>
-            </div>
         </div>
         
+        <button id="toggle-history-btn">
+            <span>📜</span>
+        </button>
+        
         <div class="status-bar">
-            <div class="version-info">版本: v7.0</div>
+            <div class="version-info">版本: v7.1.4 <span class="color-changing">由crazycba制作</span></div>
             <div class="status-info" id="status">就绪 - 按Enter键快速加密</div>
         </div>
     </div>
@@ -482,9 +542,6 @@
     <div class="notification" id="notification"></div>
 
     <script>
-        // 版本信息
-        const VERSION = "v7.0";
-        
         // 加密器核心类
         class DotCipher {
             constructor() {
@@ -582,6 +639,7 @@
                 this.cipher = new DotCipher();
                 this.history = [];
                 this.selectedHistoryId = null;
+                this.historyVisible = true;
                 
                 // 初始化DOM元素引用
                 this.dom = {
@@ -603,7 +661,9 @@
                     detailOperation: document.getElementById('detail-operation'),
                     detailOriginal: document.getElementById('detail-original'),
                     detailResult: document.getElementById('detail-result'),
-                    notification: document.getElementById('notification')
+                    notification: document.getElementById('notification'),
+                    historyPanel: document.getElementById('history-panel'),
+                    toggleHistoryBtn: document.getElementById('toggle-history-btn')
                 };
                 
                 // 初始化事件监听器
@@ -611,6 +671,11 @@
                 
                 // 加载历史记录
                 this.loadHistory();
+                
+                // 检查屏幕高度，决定是否默认显示历史面板
+                if (window.innerHeight <= 600) {
+                    this.toggleHistoryPanel(); // 小屏幕默认隐藏历史
+                }
             }
             
             initEventListeners() {
@@ -624,6 +689,14 @@
                 this.dom.exportBtn.addEventListener('click', () => this.exportHistory());
                 this.dom.clearHistoryBtn.addEventListener('click', () => this.clearHistory());
                 this.dom.closeDetailBtn.addEventListener('click', () => this.closeDetailModal());
+                this.dom.toggleHistoryBtn.addEventListener('click', () => this.toggleHistoryPanel());
+                
+                // 点击模态框外部关闭
+                this.dom.detailModal.addEventListener('click', (e) => {
+                    if (e.target === this.dom.detailModal) {
+                        this.closeDetailModal();
+                    }
+                });
                 
                 // 绑定键盘事件
                 this.dom.inputText.addEventListener('keydown', (e) => {
@@ -649,6 +722,22 @@
                         this.selectedHistoryId = row.dataset.id;
                     }
                 });
+                
+                // 移动端触摸反馈
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.addEventListener('touchstart', () => {
+                        button.style.transform = 'scale(0.95)';
+                    });
+                    
+                    button.addEventListener('touchend', () => {
+                        button.style.transform = 'scale(1)';
+                    });
+                    
+                    button.addEventListener('touchcancel', () => {
+                        button.style.transform = 'scale(1)';
+                    });
+                });
             }
             
             showNotification(message, type = 'success') {
@@ -660,6 +749,17 @@
                 setTimeout(() => {
                     notification.classList.remove('show');
                 }, 3000);
+            }
+            
+            toggleHistoryPanel() {
+                this.historyVisible = !this.historyVisible;
+                if (this.historyVisible) {
+                    this.dom.historyPanel.style.display = 'block';
+                    this.dom.toggleHistoryBtn.innerHTML = '<span>⇧</span>';
+                } else {
+                    this.dom.historyPanel.style.display = 'none';
+                    this.dom.toggleHistoryBtn.innerHTML = '<span>📜</span>';
+                }
             }
             
             encryptAction() {
@@ -708,6 +808,7 @@
                 this.dom.inputText.value = '';
                 this.dom.resultText.value = '';
                 this.dom.status.textContent = '已清空输入和结果';
+                this.dom.inputText.focus();
             }
             
             copyResult() {
@@ -719,7 +820,11 @@
                             this.dom.status.textContent = '结果已复制到剪贴板';
                         })
                         .catch(err => {
-                            this.showNotification('复制失败', 'error');
+                            // 兼容不支持clipboard API的浏览器
+                            this.dom.resultText.select();
+                            document.execCommand('copy');
+                            this.showNotification('结果已复制到剪贴板');
+                            this.dom.status.textContent = '结果已复制到剪贴板';
                         });
                 } else {
                     this.showNotification('没有可复制的内容', 'warning');
@@ -736,13 +841,16 @@
             refreshHistoryTree() {
                 this.dom.historyBody.innerHTML = '';
                 
-                for (const entry of this.history) {
+                // 倒序显示，最新的在前面
+                const reversedHistory = [...this.history].reverse();
+                
+                for (const entry of reversedHistory) {
                     // 截断过长的文本
-                    const origDisplay = entry.original.length > 50 ? 
-                        entry.original.substring(0, 47) + '...' : entry.original;
+                    const origDisplay = entry.original.length > 30 ? 
+                        entry.original.substring(0, 27) + '...' : entry.original;
                     
-                    const resultDisplay = entry.result.length > 50 ? 
-                        entry.result.substring(0, 47) + '...' : entry.result;
+                    const resultDisplay = entry.result.length > 30 ? 
+                        entry.result.substring(0, 27) + '...' : entry.result;
                     
                     const row = document.createElement('tr');
                     row.dataset.id = entry.id;
@@ -754,12 +862,6 @@
                     `;
                     
                     this.dom.historyBody.appendChild(row);
-                }
-                
-                // 如果有记录，滚动到最后一项
-                if (this.history.length > 0) {
-                    const lastRow = this.dom.historyBody.lastChild;
-                    lastRow.scrollIntoView({ behavior: 'smooth', block: 'end' });
                 }
             }
             
@@ -810,6 +912,7 @@
                     this.history = [];
                     this.saveHistory();
                     this.refreshHistoryTree();
+                    this.selectedHistoryId = null;
                     this.dom.status.textContent = '历史记录已清空';
                     this.showNotification('历史记录已清空');
                 }
@@ -828,50 +931,43 @@
                     content += `操作: ${entry.operation}\n`;
                     content += `原始内容: ${entry.original}\n`;
                     content += `结果: ${entry.result}\n`;
-                    content += '-'.repeat(50) + '\n\n';
+                    content += '-'.repeat(50) + '\n';
                 }
                 
-                const blob = new Blob([content], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `八字神人历史记录_${new Date().toISOString().slice(0, 10)}.txt`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `八字神人加密器历史记录_${new Date().toISOString().slice(0,10)}.txt`;
+                link.click();
                 
-                this.dom.status.textContent = '历史记录已导出';
                 this.showNotification('历史记录已导出');
             }
             
             saveHistory() {
-                try {
-                    const data = this.history.map(entry => entry.toObject());
-                    localStorage.setItem('baziCipherHistory', JSON.stringify(data));
-                } catch (e) {
-                    console.error('保存历史记录失败:', e);
-                }
+                const historyData = this.history.map(entry => entry.toObject());
+                localStorage.setItem('baziCipherHistory', JSON.stringify(historyData));
             }
             
             loadHistory() {
-                try {
-                    const data = localStorage.getItem('baziCipherHistory');
-                    if (data) {
-                        this.history = JSON.parse(data).map(entry => HistoryEntry.fromObject(entry));
+                const historyData = localStorage.getItem('baziCipherHistory');
+                if (historyData) {
+                    try {
+                        const parsedData = JSON.parse(historyData);
+                        this.history = parsedData.map(data => HistoryEntry.fromObject(data));
                         this.refreshHistoryTree();
-                        this.dom.status.textContent = `已加载 ${this.history.length} 条历史记录`;
+                    } catch (e) {
+                        console.error('加载历史记录失败:', e);
+                        this.history = [];
                     }
-                } catch (e) {
-                    console.error('加载历史记录失败:', e);
                 }
             }
         }
         
-        // 页面加载完成后初始化应用
-        document.addEventListener('DOMContentLoaded', () => {
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', function() {
             const app = new BaziCipherApp();
         });
     </script>
 </body>
 </html>
+    
