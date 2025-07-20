@@ -1,0 +1,407 @@
+/* styles.css */
+:root {
+    --primary-color: #4a6fa5;
+    --secondary-color: #6b8cbc;
+    --accent-color: #ff6b6b;
+    --light-bg: #f5f7fa;
+    --dark-bg: #2c3e50;
+    --text-color: #333;
+    --light-text: #fff;
+    --border-color: #ddd;
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --error-color: #f44336;
+    --button-height: 45px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: white;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+    color: var(--light-text);
+    padding: 12px 10px;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+h1 {
+    font-size: 1.3rem;
+    margin-bottom: 3px;
+}
+
+.version {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+}
+
+.app-description {
+    display: none; /* 在移动端隐藏描述 */
+}
+
+.main-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.operation-panel {
+    padding: 8px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.panel-title {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.panel-title::before {
+    content: "•";
+    margin-right: 6px;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.input-group {
+    margin-bottom: 8px;
+}
+
+label {
+    display: block;
+    margin-bottom: 2px;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+textarea {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    resize: none;
+    min-height: 55px;
+    transition: border-color 0.3s;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    gap: 6px;
+}
+
+button {
+    padding: 0 8px;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: var(--button-height);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.primary-btn {
+    background: var(--primary-color);
+    color: white;
+    flex: 1;
+}
+
+.primary-btn:hover {
+    background: var(--secondary-color);
+}
+
+.secondary-btn {
+    background: #e9ecef;
+    color: var(--text-color);
+    flex: 1;
+}
+
+.secondary-btn:hover {
+    background: #dce1e6;
+}
+
+.result-group {
+    margin-top: 8px;
+}
+
+.result-text {
+    background: #f8f9fa;
+    min-height: 55px;
+}
+
+.history-panel {
+    padding: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.history-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 6px;
+}
+
+.history-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.history-container {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: auto;
+    width: 100%;
+    max-height: 80px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th {
+    background: var(--primary-color);
+    color: white;
+    padding: 6px 4px;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    font-size: 0.7rem;
+}
+
+.history-table td {
+    padding: 4px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.7rem;
+    word-break: break-all;
+}
+
+.history-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.history-table tr:hover {
+    background: #e9f7fe;
+}
+
+.history-table tr.selected {
+    background: #d1e7fd;
+}
+
+.status-bar {
+    background: var(--dark-bg);
+    color: var(--light-text);
+    padding: 6px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.action-btn {
+    padding: 0 6px;
+    font-size: 0.7rem;
+    border-radius: 3px;
+    height: 25px;
+}
+
+.view-btn {
+    background: var(--success-color);
+    color: white;
+}
+
+.delete-btn {
+    background: var(--error-color);
+    color: white;
+}
+
+.export-btn {
+    background: var(--warning-color);
+    color: white;
+}
+
+.clear-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.detail-item {
+    margin-bottom: 10px;
+}
+
+.detail-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+.detail-content {
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow: auto;
+    font-size: 0.9rem;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    max-width: 80%;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.success {
+    background: var(--success-color);
+}
+
+.notification.error {
+    background: var(--error-color);
+}
+
+.notification.warning {
+    background: var(--warning-color);
+}
+
+/* 显示/隐藏历史面板的按钮 */
+#toggle-history-btn {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 900;
+}
+
